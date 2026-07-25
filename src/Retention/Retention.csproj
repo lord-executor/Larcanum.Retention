@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Larcanum.Retention</RootNamespace>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>../Larcanum.Retention.snk</AssemblyOriginatorKeyFile>
+    </PropertyGroup>
+
+    <!-- NuGet package config-->
+    <PropertyGroup>
+        <PackageId>Larcanum.Retention</PackageId>
+        <Authors>Lukas Angerer</Authors>
+        <Description>Library for managing retention policies for things like backups and versioned artifacts</Description>
+        <Copyright>Copyright 2026 Lukas Angerer</Copyright>
+        <PackageProjectUrl>https://github.com/lord-executor/Larcanum.Retention</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/lord-executor/Larcanum.Retention</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageTags>retention;backup;versioning</PackageTags>
+        <!-- Create symbol package -
+        https://learn.microsoft.com/en-us/nuget/create-packages/symbol-packages-snupkg -->
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
+
+    <!-- See https://github.com/clairernovotny/DeterministicBuilds -->
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Larcanum.GitInfo" Version="1.3.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+</Project>
