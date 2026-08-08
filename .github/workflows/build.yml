@@ -1,0 +1,30 @@
+name: .NET Build
+
+on:
+    push:
+        branches: [ "main" ]
+    pull_request:
+        branches: [ "main" ]
+
+jobs:
+    build:
+
+        runs-on: ubuntu-latest
+
+        steps:
+            # Checkout the repository
+            -   name: Checkout code
+                uses: actions/checkout@v5
+
+            # Setup .NET Core SDK
+            -   name: Setup .NET
+                uses: actions/setup-dotnet@v5
+                with:
+                    dotnet-version: 10.0.x
+
+            -   name: Restore dependencies
+                run: dotnet restore src/Larcanum.Retention.slnx
+            -   name: Build
+                run: dotnet build --no-restore src/Larcanum.Retention.slnx
+            -   name: Test
+                run: dotnet test --no-build --verbosity normal src/Larcanum.Retention.slnx

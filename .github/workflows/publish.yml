@@ -1,0 +1,37 @@
+name: NuGet Package Release
+
+on:
+    push:
+        tags:
+            - 'v*.*.*'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        permissions:
+            id-token: write # required so the job can request a GitHub OIDC token for NuGet Trusted Publishing
+
+        steps:
+            # Checkout the repository
+            - name: Checkout code
+              uses: actions/checkout@v5
+
+            # Setup .NET Core SDK
+            - name: Setup .NET Core
+              uses: actions/setup-dotnet@v5
+              with:
+                  dotnet-version: 10.0.x
+
+            - name: Pack Larcanum.Retention
+              run: dotnet pack --configuration Release --output ./artifacts src/Retention/Retention.csproj
+
+            # Exchange the GitHub OIDC token for a short-lived (1 hour) NuGet API key
+            - name: NuGet login (OIDC -> temp API key)
+              uses: NuGet/login@v1
+              id: login
+              with:
+                  user: ${{ secrets.NUGET_USER }}
+
+            # Push the packages to NuGet
+            - name: Push to NuGet
+              run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
