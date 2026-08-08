@@ -42,11 +42,6 @@ public class RetentionStrategyUseCaseTests
             candidates = result.Retain
                 .Select(c => new RetentionCandidate<string>(c.Item, c.Timestamp))
                 .ToList();
-
-            // Turn on the output to make the evolution of the retained candidates visible.
-            // _output.WriteLine(string.Join(", ", candidates
-            //     .Select(c => c.Item)
-            //     .OrderDescending()));
         }
 
         currentDate.Should().Be(StartPoint);
@@ -66,12 +61,17 @@ public class RetentionStrategyUseCaseTests
 
     public static IEnumerable<object?[]> GenerateTestScenarios()
     {
-        yield return new object?[] { "1W:1D:N,4W:1W:N,12M:1M:N", CandidateFactory([
-            (7, true),
-            (28, true),
-            (360, true)
-        ]) };
-        yield return new object?[] { "7D:2D:N,4W:2W:N", CandidateFactory(Enumerable.Range(1, 45)
+        yield return
+        [
+            "1W:1D:N,4W:1W:N,12M:1M:N", CandidateFactory([
+                (7, true),
+                (28, true),
+                (360, true)
+            ])
+        ];
+        yield return
+        [
+            "7D:2D:N,4W:2W:N", CandidateFactory(Enumerable.Range(1, 45)
             .Select(x => (x, x switch
             {
                 // the newest one is always the newest in the first 7D:2D segment
@@ -81,7 +81,8 @@ public class RetentionStrategyUseCaseTests
                 // the last 3 Sundays are kept since 4W + the CURRENT week is actually 3 2W segments
                 3 or 10 or 24 => true,
                 _ => false
-            }))) };
+            })))
+        ];
     }
 
     private static List<RetentionCandidate<SelfAwareItem>> CandidateFactory(IEnumerable<(int DaysAgo, bool IsRetained)> data)

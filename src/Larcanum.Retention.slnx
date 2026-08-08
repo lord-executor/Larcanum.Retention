@@ -1,4 +1,11 @@
 <Solution>
+  <Folder Name="/SolutionFiles/">
+    <File Path="../.editorconfig" />
+    <File Path="../.gitignore" />
+    <File Path="../global.json" />
+    <File Path="../LICENSE" />
+    <File Path="../README.md" />
+  </Folder>
   <Project Path="Retention.UnitTests/Retention.UnitTests.csproj" />
   <Project Path="Retention/Retention.csproj" />
 </Solution>
