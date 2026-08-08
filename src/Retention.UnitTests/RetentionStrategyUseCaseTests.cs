@@ -1,3 +1,5 @@
+using System.Globalization;
+
 using AwesomeAssertions;
 
 namespace Larcanum.Retention.UnitTests;
@@ -34,7 +36,7 @@ public class RetentionStrategyUseCaseTests
         for (var i = 0; i < 450; i++)
         {
             currentDate = currentDate.AddDays(1);
-            candidates.Add(new RetentionCandidate<string>(DateOnly.FromDateTime(currentDate.Date).ToString("yyyy-MM-dd"), currentDate.AddHours(-2)));
+            candidates.Add(new RetentionCandidate<string>(DateOnly.FromDateTime(currentDate.Date).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), currentDate.AddHours(-2)));
             var strategy = new RetentionStrategy<string>(policies, new RetentionStrategyOptions { StartPoint = currentDate, AllowOverlap = true });
             var result = strategy.Evaluate(candidates);
             // We have to create _new_ candidates since the evaluated candidates already contain policy information

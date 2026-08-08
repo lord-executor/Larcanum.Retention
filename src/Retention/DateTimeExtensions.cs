@@ -1,4 +1,4 @@
-﻿namespace Larcanum.Retention;
+namespace Larcanum.Retention;
 
 internal static class DateTimeExtensions
 {

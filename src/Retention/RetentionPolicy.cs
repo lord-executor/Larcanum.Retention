@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Larcanum.Retention;
@@ -55,7 +56,7 @@ public partial class RetentionPolicy
 
     private static IRetentionInterval CreateInterval(string count, string modifier)
     {
-        int stepSize = int.Parse(count);
+        int stepSize = int.Parse(count, CultureInfo.InvariantCulture);
 
         return modifier switch
         {

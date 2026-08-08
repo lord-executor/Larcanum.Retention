@@ -57,7 +57,7 @@ public class RetentionStrategy<T>
         return new RetentionResult<T>(retain, prune);
     }
 
-    private IEnumerable<List<RetentionCandidate<T>>> BuildCandidateSegments(List<RetentionCandidate<T>> sortedCandidates, SplitGenerator generator)
+    private static IEnumerable<List<RetentionCandidate<T>>> BuildCandidateSegments(List<RetentionCandidate<T>> sortedCandidates, SplitGenerator generator)
     {
         var index = 0;
         var segment = new List<RetentionCandidate<T>>();
@@ -78,7 +78,7 @@ public class RetentionStrategy<T>
         }
     }
 
-    private class SplitGenerator : IEnumerable<DateTimeOffset>
+    private sealed class SplitGenerator : IEnumerable<DateTimeOffset>
     {
         private readonly RetentionPolicy _policy;
 
