@@ -31,8 +31,8 @@ public class RetentionStrategy<T>
         var retain = new HashSet<RetentionCandidate<T>>();
 
         // Anything newer than the starting point will always be retained.
-        var firstInRangeIndex = sortedCandidates.Index()
-            .FirstOrDefault(x => x.Item.Timestamp <= _options.StartPoint).Index;
+        var firstInRangeIndexOrNotFound = sortedCandidates.FindIndex(c => c.Timestamp <= _options.StartPoint);
+        var firstInRangeIndex = firstInRangeIndexOrNotFound == -1 ? sortedCandidates.Count : firstInRangeIndexOrNotFound;
         foreach (var candidate in sortedCandidates[..firstInRangeIndex])
         {
             retain.Add(candidate);

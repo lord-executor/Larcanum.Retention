@@ -28,6 +28,25 @@ public class RetentionStrategyTests
     }
 
     [Test]
+    public void Evaluate_AllCandidatesNewerThanStartPoint_RetainsAll()
+    {
+        // Regression test: when every candidate is newer than StartPoint (e.g. StartPoint predates
+        // the whole data set), the "always retain newer than start point" rule must apply to all of
+        // them rather than falling through to policy evaluation, which would only keep one per policy.
+        var policies = RetentionPolicy.Parse("1Y:1D:N");
+        var strategy = new RetentionStrategy<string>(policies, new RetentionStrategyOptions { StartPoint = StartPoint.AddYears(-5) });
+
+        var candidates = Enumerable.Range(0, 10)
+            .Select(i => new RetentionCandidate<string>($"Backup {i}", StartPoint.AddDays(-i)))
+            .ToList();
+
+        var result = strategy.Evaluate(candidates);
+
+        result.Retain.Should().HaveCount(10);
+        result.Prune.Should().BeEmpty();
+    }
+
+    [Test]
     public void Evaluate_DailyPolicy_RetainsOnePerDay()
     {
         // Retain 1 item per day for the last 7 days
