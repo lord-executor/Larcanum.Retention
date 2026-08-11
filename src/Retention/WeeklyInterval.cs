@@ -12,6 +12,7 @@ public class WeeklyInterval : IRetentionInterval
 
     public WeeklyInterval(int count)
     {
+        ArgumentOutOfRangeException.ThrowIfLessThan(count, 1);
         Count = count;
     }
 

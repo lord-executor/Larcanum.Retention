@@ -55,4 +55,15 @@ public class RetentionPolicyParseTests
         Action act3 = () => RetentionPolicy.Parse("W1:D1");
         act3.Should().Throw<ArgumentException>();
     }
+
+    [Test]
+    public void Parse_WithZeroCount_ThrowsArgumentOutOfRangeException()
+    {
+        // A 0 count interval would make RetentionStrategy.Evaluate loop forever, so it must be rejected upfront.
+        Action periodAct = () => RetentionPolicy.Parse("0D:1D:N");
+        periodAct.Should().Throw<ArgumentOutOfRangeException>();
+
+        Action keepAct = () => RetentionPolicy.Parse("1M:0D:N");
+        keepAct.Should().Throw<ArgumentOutOfRangeException>();
+    }
 }

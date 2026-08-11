@@ -103,4 +103,18 @@ public class MonthlyIntervalTests
         var interval = new MonthlyInterval(6);
         interval.ToString().Should().Be("6M");
     }
+
+    [Test]
+    public void Constructor_WithZeroCount_ThrowsArgumentOutOfRangeException()
+    {
+        Action act = () => _ = new MonthlyInterval(0);
+        act.Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
+    public void Constructor_WithNegativeCount_ThrowsArgumentOutOfRangeException()
+    {
+        Action act = () => _ = new MonthlyInterval(-1);
+        act.Should().Throw<ArgumentOutOfRangeException>();
+    }
 }

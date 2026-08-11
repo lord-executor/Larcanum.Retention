@@ -78,4 +78,18 @@ public class DailyIntervalTests
         var interval = new DailyInterval(3);
         interval.ToString().Should().Be("3D");
     }
+
+    [Test]
+    public void Constructor_WithZeroCount_ThrowsArgumentOutOfRangeException()
+    {
+        Action act = () => _ = new DailyInterval(0);
+        act.Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
+    public void Constructor_WithNegativeCount_ThrowsArgumentOutOfRangeException()
+    {
+        Action act = () => _ = new DailyInterval(-1);
+        act.Should().Throw<ArgumentOutOfRangeException>();
+    }
 }

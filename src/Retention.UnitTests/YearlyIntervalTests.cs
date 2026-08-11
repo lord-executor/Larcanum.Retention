@@ -71,4 +71,18 @@ public class YearlyIntervalTests
         var interval = new YearlyInterval(1);
         interval.ToString().Should().Be("1Y");
     }
+
+    [Test]
+    public void Constructor_WithZeroCount_ThrowsArgumentOutOfRangeException()
+    {
+        Action act = () => _ = new YearlyInterval(0);
+        act.Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
+    public void Constructor_WithNegativeCount_ThrowsArgumentOutOfRangeException()
+    {
+        Action act = () => _ = new YearlyInterval(-1);
+        act.Should().Throw<ArgumentOutOfRangeException>();
+    }
 }

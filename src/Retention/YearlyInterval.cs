@@ -9,6 +9,7 @@ public class YearlyInterval : IRetentionInterval
 
     public YearlyInterval(int count)
     {
+        ArgumentOutOfRangeException.ThrowIfLessThan(count, 1);
         Count = count;
     }
 

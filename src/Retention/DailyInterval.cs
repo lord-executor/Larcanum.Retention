@@ -9,6 +9,7 @@ public class DailyInterval : IRetentionInterval
 
     public DailyInterval(int step)
     {
+        ArgumentOutOfRangeException.ThrowIfLessThan(step, 1);
         Count = step;
     }
 

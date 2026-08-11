@@ -9,6 +9,7 @@ public class MonthlyInterval : IRetentionInterval
 
     public MonthlyInterval(int step)
     {
+        ArgumentOutOfRangeException.ThrowIfLessThan(step, 1);
         Count = step;
     }
 
