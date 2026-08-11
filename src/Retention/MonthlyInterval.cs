@@ -1,5 +1,8 @@
 namespace Larcanum.Retention;
 
+/// <summary>
+/// An <see cref="IRetentionInterval"/> spanning a calendar month. Aligns to the first day of its containing month.
+/// </summary>
 public class MonthlyInterval : IRetentionInterval
 {
     public int Count { get; }

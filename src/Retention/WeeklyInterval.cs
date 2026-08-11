@@ -1,5 +1,9 @@
 namespace Larcanum.Retention;
 
+/// <summary>
+/// An <see cref="IRetentionInterval"/> spanning a calendar week. Aligns to Monday of the week, using [Mo - Su] as the
+/// definition of a week.
+/// </summary>
 public class WeeklyInterval : IRetentionInterval
 {
     private static readonly TimeSpan StepSize = TimeSpan.FromDays(7);

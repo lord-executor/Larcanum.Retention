@@ -3,6 +3,14 @@ using System.Text.RegularExpressions;
 
 namespace Larcanum.Retention;
 
+/// <summary>
+/// A single GFS-style retention rule: within each <see cref="PeriodInterval"/>-sized bucket of the evaluated
+/// timeline, keep one candidate per <see cref="KeepInterval"/>-sized slot, choosing the slot's newest or oldest
+/// candidate per <see cref="Alignment"/>. Can be expressed as a compact string, e.g. <c>"1W:1D:N"</c> means
+/// "for the most recent week, keep the newest candidate of each day". Multiple policies are combined by a
+/// <see cref="RetentionStrategy{T}"/> to build a full rotation scheme (e.g. daily for a week, weekly for a
+/// month, monthly for a year).
+/// </summary>
 public partial class RetentionPolicy
 {
     [GeneratedRegex(@"^(\d+)(D|W|M|Y):(\d+)(D|W|M|Y):(N|O)$")]

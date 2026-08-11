@@ -1,5 +1,8 @@
 namespace Larcanum.Retention;
 
+/// <summary>
+/// An <see cref="IRetentionInterval"/> spanning a calendar year. Aligns to January 1st of its containing year.
+/// </summary>
 public class YearlyInterval : IRetentionInterval
 {
     public int Count { get; }

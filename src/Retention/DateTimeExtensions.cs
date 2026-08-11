@@ -1,5 +1,9 @@
 namespace Larcanum.Retention;
 
+/// <summary>
+/// Date/time helpers shared by the <see cref="IRetentionInterval"/> implementations, in particular week
+/// alignment logic used by <see cref="WeeklyInterval"/>.
+/// </summary>
 internal static class DateTimeExtensions
 {
     extension(DateTimeOffset dateTimeOffset)

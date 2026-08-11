@@ -2,6 +2,13 @@ using System.Collections;
 
 namespace Larcanum.Retention;
 
+/// <summary>
+/// Evaluates a set of <see cref="RetentionPolicy"/> rules against a set of <see cref="RetentionCandidate{T}"/>
+/// items to decide which to retain and which to prune, implementing GFS-style ("grandfather-father-son")
+/// rotation. Candidates newer than <see cref="RetentionStrategyOptions.StartPoint"/> are always retained; for
+/// the rest, each policy partitions the timeline into period-sized buckets and keeps one candidate per
+/// keep-sized slot within each bucket. A candidate is retained overall if any policy chooses to keep it.
+/// </summary>
 public class RetentionStrategy<T>
 {
     private readonly List<RetentionPolicy> _policies;
@@ -13,6 +20,11 @@ public class RetentionStrategy<T>
         _options = options ?? new RetentionStrategyOptions();
     }
 
+    /// <summary>
+    /// Evaluates the retention strategy with all its policies against the set of retention <paramref name="candidates"/>
+    /// and returns a <see cref="RetentionResult{T}"/> that has partitioned the candidates into the ones that should be
+    /// kept and the ones that should be pruned according to these policies.
+    /// </summary>
     public RetentionResult<T> Evaluate(IEnumerable<RetentionCandidate<T>> candidates)
     {
         var sortedCandidates = candidates.OrderByDescending(c => c.Timestamp).ToList();
@@ -78,6 +90,11 @@ public class RetentionStrategy<T>
         }
     }
 
+    /// <summary>
+    /// Produces the sequence of "keep interval" boundary timestamps within a single policy's period, walking
+    /// backward from the period's end to its start. Consecutive boundaries delimit the slots that
+    /// <see cref="BuildCandidateSegments"/> groups candidates into.
+    /// </summary>
     private sealed class SplitGenerator : IEnumerable<DateTimeOffset>
     {
         private readonly RetentionPolicy _policy;

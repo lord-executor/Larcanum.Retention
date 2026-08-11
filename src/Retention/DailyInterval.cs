@@ -1,5 +1,8 @@
 namespace Larcanum.Retention;
 
+/// <summary>
+/// An <see cref="IRetentionInterval"/> spanning a calendar day. Aligns to midnight of its containing day.
+/// </summary>
 public class DailyInterval : IRetentionInterval
 {
     public int Count { get; }
