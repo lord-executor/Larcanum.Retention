@@ -2,9 +2,19 @@ name: .NET Build
 
 on:
     push:
-        branches: [ "main" ]
+        branches: [ "**" ]
     pull_request:
         branches: [ "main" ]
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+permissions:
+    contents: read
+
+env:
+    SOLUTION_FILE: src/Larcanum.Retention.slnx
 
 jobs:
     build:
@@ -23,8 +33,8 @@ jobs:
                     dotnet-version: 10.0.x
 
             -   name: Restore dependencies
-                run: dotnet restore src/Larcanum.Retention.slnx
+                run: dotnet restore $SOLUTION_FILE
             -   name: Build
-                run: dotnet build --no-restore src/Larcanum.Retention.slnx
+                run: dotnet build --no-restore $SOLUTION_FILE
             -   name: Test
-                run: dotnet test --no-build --verbosity normal src/Larcanum.Retention.slnx
+                run: dotnet test --no-build --verbosity normal $SOLUTION_FILE
